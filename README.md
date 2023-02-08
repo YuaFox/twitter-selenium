@@ -2,6 +2,14 @@
 
 Fuck apis, use Twitter without api
 
+## Requirements
+
+- Firefox
+
+## Current features
+- Tweet
+- Read recent replies
+
 ## Compile
 
 ### Linux
