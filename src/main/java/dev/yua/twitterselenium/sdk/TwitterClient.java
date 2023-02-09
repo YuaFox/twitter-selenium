@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 
 public class TwitterClient {
@@ -34,7 +35,11 @@ public class TwitterClient {
     private WebDriver driver;
 
     private TwitterClient(boolean headless){
-        FirefoxProfile profile = new FirefoxProfile(new File("/home/yua/.mozilla/firefox/tnd7rxsi.default-release"));
+        File[] files = new File(System.getProperty("user.home")+"/.mozilla/firefox").listFiles();
+        File profileFile = Arrays.stream(files).filter((f) -> f.getName().contains("default-release")).findFirst().get();
+        FirefoxProfile profile = new FirefoxProfile(profileFile);
+        profile.setPreference("dom.webdriver.enabled", false);
+        profile.setPreference("useAutomationExtension", false);
         FirefoxOptions firefoxOptions = new FirefoxOptions().setProfile(profile);
         if(headless)
             firefoxOptions.addArguments("-headless");
@@ -55,6 +60,14 @@ public class TwitterClient {
     }
 
     public List<Notification> getNotifications(){
-        return TwitterClient.notificationPage.getNotifications(driver);
+        return TwitterClient.notificationPage.getNotifications(driver, false);
+    }
+
+    public List<Notification> getNotifications(boolean older){
+        return TwitterClient.notificationPage.getNotifications(driver, older);
+    }
+
+    public void resetNotifications(){
+        TwitterClient.notificationPage.resetNotifications(driver);
     }
 }

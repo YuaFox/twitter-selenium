@@ -21,12 +21,6 @@ public class TweetBoxElement {
         if(tweet.getText() != null)
             this.textInput.sendKeys(driver, tweet.getText());
 
-        try {
-            Thread.sleep(1230);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
         if(tweet.getFile() != null)
             this.mediaInput.sendKeys(driver, tweet.getFile().getAbsolutePath());
 
